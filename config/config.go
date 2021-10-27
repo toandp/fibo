@@ -1,16 +1,14 @@
 package config
 
 import (
-	"fmt"
-	"os"
-
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/joho/godotenv"
 )
 
 // AppConfig is a struct holding the application settings.
 type AppConfig struct {
-	Debug    bool `env:"APP_DEBUG" env-default:"false"`
+	Env      string `env:"APP_ENV" env-default:"development"`
+	Debug    bool   `env:"APP_DEBUG" env-default:"false"`
 	Server   ServerConfig
 	Database DatabaseConfig
 	JWT      JWTConfig
@@ -36,6 +34,7 @@ type DatabaseConfig struct {
 	TablePrefix string `env:"DB_TABLE_PREFIX" env-default:"tbl_"`
 }
 
+// JWTConfig is a struct holding the JWT settings.
 type JWTConfig struct {
 	Expire int64  `env:"JWT_EXPIRE" env-default:"3600"`
 	Secret string `env:"JWT_SECRET" env-default:"1894cde6c936a294a478cff0a9227fd276d86df6573b51af5dc59c9064edf426"`
@@ -43,20 +42,22 @@ type JWTConfig struct {
 
 var App AppConfig
 
+// Read configuration from the environment variables
+// @return void
 func LoadConfigFromEnv() {
 	var err error
 
+	// Load env variables
 	err = godotenv.Load()
 
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(2)
+		panic(err)
 	}
 
+	// Bind configuration
 	err = cleanenv.ReadEnv(&App)
 
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(2)
+		panic(err)
 	}
 }

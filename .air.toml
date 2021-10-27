@@ -2,8 +2,8 @@ root = "."
 tmp_dir = "tmp"
 
 [build]
-  bin = "./tmp/main"
-  cmd = "go build -o ./tmp/main ."
+  bin = "./tmp/air/main"
+  cmd = "go build -o ./tmp/air/main ."
   delay = 1000
   exclude_dir = ["assets", "tmp", "vendor"]
   exclude_file = []
@@ -14,7 +14,7 @@ tmp_dir = "tmp"
   include_dir = []
   include_ext = ["go", "tpl", "tmpl", "html"]
   kill_delay = "0s"
-  log = "build-errors.log"
+  log = "logs/air-build-errors.log"
   send_interrupt = false
   stop_on_error = true
 

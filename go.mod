@@ -4,7 +4,13 @@ go 1.17
 
 require (
 	github.com/gofiber/fiber/v2 v2.20.2
+	github.com/gofiber/jwt/v3 v3.2.0
 	github.com/joho/godotenv v1.4.0
+)
+
+require (
+	go.uber.org/atomic v1.7.0 // indirect
+	go.uber.org/multierr v1.6.0 // indirect
 )
 
 require (
@@ -20,7 +26,6 @@ require (
 require (
 	github.com/andybalholm/brotli v1.0.3 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
-	github.com/gofiber/jwt/v3 v3.1.2
 	github.com/gookit/validate v1.2.11
 	github.com/ilyakaznacheev/cleanenv v1.2.5
 	github.com/jinzhu/inflection v1.0.0 // indirect
@@ -29,6 +34,7 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.31.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
+	go.uber.org/zap v1.19.1
 	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
 	golang.org/x/sys v0.0.0-20211015200801-69063c4bb744 // indirect
 	gorm.io/driver/mysql v1.1.2

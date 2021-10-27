@@ -2,8 +2,6 @@ package db
 
 import (
 	"fmt"
-	"log"
-	"os"
 	"time"
 
 	"gorm.io/driver/mysql"
@@ -12,10 +10,13 @@ import (
 	"gorm.io/plugin/dbresolver"
 	"team1.asia/fibo/config"
 	"team1.asia/fibo/db/entity"
+	"team1.asia/fibo/log"
 )
 
 var ORM *gorm.DB
 
+// Establishes a DB connection.
+// @return void
 func Connect() {
 	var err error
 
@@ -36,8 +37,7 @@ func Connect() {
 	})
 
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(2)
+		panic(err)
 	}
 
 	ORM.Use(
@@ -48,17 +48,18 @@ func Connect() {
 	)
 }
 
+// Execute the DB migration.
+// @return void
 func Migrate() {
-	log.Println("Initiating migration...")
+	log.Zap.Info("Initiating migration...")
 
 	err := ORM.Migrator().AutoMigrate(
 		&entity.User{},
 	)
 
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(2)
+		panic(err)
 	}
 
-	log.Println("Migration Completed...")
+	log.Zap.Info("Migration Completed.")
 }
