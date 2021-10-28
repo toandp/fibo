@@ -1,6 +1,8 @@
 package config
 
 import (
+	"fmt"
+
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/joho/godotenv"
 )
@@ -9,8 +11,9 @@ import (
 type AppConfig struct {
 	Env      string `env:"APP_ENV" env-default:"development"`
 	Debug    bool   `env:"APP_DEBUG" env-default:"false"`
+	Timezone string `env:"APP_TZ" env-default:"Asia/Ho_Chi_Minh"`
 	Server   ServerConfig
-	Database DatabaseConfig
+	DB       DatabaseConfig
 	JWT      JWTConfig
 	Log      LogConfig
 }
@@ -33,6 +36,8 @@ type DatabaseConfig struct {
 	DBName      string `env:"DB_NAME" env-default:"fibo_dev"`
 	Port        int    `env:"DB_PORT" env-default:"3306"`
 	TablePrefix string `env:"DB_TABLE_PREFIX" env-default:"tbl_"`
+	SSLMode     string `env:"DB_SSL_MODE" env-default:"disable"`
+	SQLiteFile  string `env:"DB_SQLITE_FILE" env-default:"sqlite.db"`
 }
 
 // JWTConfig is a struct holding the JWT settings.
@@ -56,6 +61,7 @@ func LoadConfigFromEnv() {
 	err = godotenv.Load()
 
 	if err != nil {
+		fmt.Println(err)
 		panic(err)
 	}
 
@@ -63,6 +69,7 @@ func LoadConfigFromEnv() {
 	err = cleanenv.ReadEnv(&App)
 
 	if err != nil {
+		fmt.Println(err)
 		panic(err)
 	}
 }

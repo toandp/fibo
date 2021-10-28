@@ -31,6 +31,7 @@ func SetupLogger() {
 	Zap, err = zapCfg.Build()
 
 	if err != nil {
+		fmt.Println(err)
 		panic(err)
 	}
 

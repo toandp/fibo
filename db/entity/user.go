@@ -6,6 +6,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"gorm.io/gorm"
 	"team1.asia/fibo/config"
+	"team1.asia/fibo/log"
 )
 
 type JWTToken struct {
@@ -49,6 +50,7 @@ func (u *User) CreateJWTToken(secret string, expires ...int64) *JWTToken {
 	tokenHash, err := token.SignedString([]byte(secret))
 
 	if err != nil {
+		log.Error(err.Error())
 		panic(err)
 	}
 

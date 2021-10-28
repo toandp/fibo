@@ -3,6 +3,7 @@ package repository
 import (
 	"gorm.io/gorm"
 	"team1.asia/fibo/db/entity"
+	"team1.asia/fibo/log"
 )
 
 type UserRepository struct {
@@ -26,6 +27,7 @@ func (repo *UserRepository) GetByUsername(username string) *entity.User {
 	var user entity.User
 
 	if err := repo.ORM.Where(&entity.User{Username: username}).First(&user).Error; err != nil {
+		log.Error(err.Error())
 		panic(err)
 	}
 

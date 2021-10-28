@@ -1,4 +1,5 @@
 .env
+sqlite.db
 
 tmp/*
 !tmp/.keep

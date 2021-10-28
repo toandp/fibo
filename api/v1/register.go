@@ -8,6 +8,7 @@ import (
 	"team1.asia/fibo/db"
 	"team1.asia/fibo/db/entity"
 	"team1.asia/fibo/db/repository"
+	"team1.asia/fibo/log"
 )
 
 type H struct{}
@@ -81,6 +82,7 @@ func CreatePasswordHash(password string) string {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), 10)
 
 	if err != nil {
+		log.Error(err.Error())
 		panic(err)
 	}
 
