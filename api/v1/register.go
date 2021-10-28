@@ -10,9 +10,18 @@ import (
 	"team1.asia/fibo/db/repository"
 )
 
-// POST /api/v1/register handler.
-// @param  c *fiber.Ctx
-// @return error
+type H struct{}
+
+// Register is a function to create the user.
+// @Summary The user creator
+// @Description The user creator
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Success 200 {object} H{}
+// @Failure 400 {object} H{}
+// @Failure 401 {object} H{}
+// @Router /api/v1/register [post]
 func Register(c *fiber.Ctx) error {
 	user := c.Locals("user").(*entity.User)
 	repo := c.Locals("repository").(repository.UserRepositoryInterface)
@@ -29,8 +38,6 @@ func Register(c *fiber.Ctx) error {
 }
 
 // Validate the POST register request.
-// @param  c *fiber.Ctx
-// @return error
 func ValidateRegisterRequest(c *fiber.Ctx) error {
 	var data entity.UserRegisterForm
 
@@ -70,8 +77,6 @@ func ValidateRegisterRequest(c *fiber.Ctx) error {
 }
 
 // Create the password hash.
-// @param  password string
-// @return string
 func CreatePasswordHash(password string) string {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), 10)
 

@@ -12,6 +12,7 @@ type AppConfig struct {
 	Server   ServerConfig
 	Database DatabaseConfig
 	JWT      JWTConfig
+	Log      LogConfig
 }
 
 // ServerConfig is a struct holding the server settings.
@@ -40,10 +41,14 @@ type JWTConfig struct {
 	Secret string `env:"JWT_SECRET" env-default:"1894cde6c936a294a478cff0a9227fd276d86df6573b51af5dc59c9064edf426"`
 }
 
+// LogConfig is a struct holding the JWT settings.
+type LogConfig struct {
+	FilePath string `env:"LOG_FILE_FORMAT" env-default:"./tmp/logs/%s-%s.log"`
+}
+
 var App AppConfig
 
-// Read configuration from the environment variables
-// @return void
+// Read configuration from the environment variables.
 func LoadConfigFromEnv() {
 	var err error
 

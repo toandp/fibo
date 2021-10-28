@@ -14,15 +14,14 @@ type UserRepositoryInterface interface {
 	Create(user *entity.User) *entity.User
 }
 
+// Create a new user repository instance.
 func New(orm *gorm.DB) UserRepositoryInterface {
 	return &UserRepository{
 		ORM: orm,
 	}
 }
 
-// Gets the user by username.
-// @param  username string
-// @return *entity.User
+// Get the user by username.
 func (repo *UserRepository) GetByUsername(username string) *entity.User {
 	var user entity.User
 
@@ -33,9 +32,7 @@ func (repo *UserRepository) GetByUsername(username string) *entity.User {
 	return &user
 }
 
-// Create the user.
-// @param  user *entity.User
-// @return *entity.User
+// Create a new user.
 func (repo *UserRepository) Create(user *entity.User) *entity.User {
 	repo.ORM.Create(&user)
 

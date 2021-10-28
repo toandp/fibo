@@ -30,10 +30,7 @@ type UserRegisterForm struct {
 	CPassword string `json:"c_password" form:"c_password" validate:"required|eq_field:password"`
 }
 
-// Create the JWT token.
-// @param  secret  string
-// @param  expires []int64
-// @return *JWTToken
+// Create the user JWT token.
 func (u *User) CreateJWTToken(secret string, expires ...int64) *JWTToken {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)

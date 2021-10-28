@@ -11,9 +11,18 @@ import (
 	"team1.asia/fibo/log"
 )
 
-// POST /api/v1/login handler.
-// @param  c *fiber.Ctx
-// @return error
+type M struct{}
+
+// Login is a function to authentication from database.
+// @Summary The user authentication
+// @Description The user authentication
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Success 200 {object} M{}
+// @Failure 400 {object} M{}
+// @Failure 401 {object} M{}
+// @Router /api/v1/login [post]
 func Login(c *fiber.Ctx) error {
 	user := c.Locals("user").(*entity.User)
 	token := user.CreateJWTToken(config.App.JWT.Secret)
@@ -25,14 +34,12 @@ func Login(c *fiber.Ctx) error {
 	})
 }
 
-// Validate the POST logini request.
-// @param  c *fiber.Ctx
-// @return error
+// Validate the POST login request.
 func ValidateLoginRequest(c *fiber.Ctx) error {
 	var data entity.UserLoginForm
 
 	if err := c.BodyParser(&data); err != nil {
-		log.Zap.Error(err.Error())
+		log.Error(err.Error())
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": err.Error(),
 		})
@@ -41,7 +48,7 @@ func ValidateLoginRequest(c *fiber.Ctx) error {
 	v := validate.Struct(data)
 
 	if !v.Validate() {
-		log.Zap.Error(v.Errors.String())
+		log.Error(v.Errors.String())
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": v.Errors,
 		})
@@ -51,7 +58,7 @@ func ValidateLoginRequest(c *fiber.Ctx) error {
 	user := repo.GetByUsername(data.Username)
 
 	if user == nil {
-		log.Zap.Error("User not found.")
+		log.Error("User not found.")
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"error": "User not found.",
 		})
@@ -60,7 +67,7 @@ func ValidateLoginRequest(c *fiber.Ctx) error {
 	match := ComparePasswordHash(data.Password, user.PasswordHash)
 
 	if !match {
-		log.Zap.Error("Invalid email or password.")
+		log.Error("Invalid email or password.")
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"error": "Invalid email or password.",
 		})
@@ -72,9 +79,6 @@ func ValidateLoginRequest(c *fiber.Ctx) error {
 }
 
 // Compares a bcrypt hashed password with user password.
-// @param  password string
-// @param  hash     string
-// @return bool
 func ComparePasswordHash(password string, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 

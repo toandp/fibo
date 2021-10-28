@@ -16,7 +16,6 @@ import (
 var ORM *gorm.DB
 
 // Establishes a DB connection.
-// @return void
 func Connect() {
 	var err error
 
@@ -49,9 +48,8 @@ func Connect() {
 }
 
 // Execute the DB migration.
-// @return void
 func Migrate() {
-	log.Zap.Info("Initiating migration...")
+	log.Info("Initiating migration...")
 
 	err := ORM.Migrator().AutoMigrate(
 		&entity.User{},
@@ -61,5 +59,5 @@ func Migrate() {
 		panic(err)
 	}
 
-	log.Zap.Info("Migration Completed.")
+	log.Info("Migration Completed.")
 }

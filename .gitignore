@@ -2,3 +2,6 @@
 
 tmp/*
 !tmp/.keep
+
+docs/*
+!docs/.keep
